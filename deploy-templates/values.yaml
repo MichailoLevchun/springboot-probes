@@ -75,13 +75,20 @@ resources: {}
   #   memory: 128Mi
 
 livenessProbe:
-  tcpSocket:
-    port: http
-readinessProbe:
-  tcpSocket:
-    port: http
-  initialDelaySeconds: 20
+  httpGet:
+    path: /api/liveness
+    port: 8080
+  initialDelaySeconds: 15
+  periodSeconds: 5
+  failureThreshold: 3
 
+readinessProbe:
+  httpGet:
+    path: /api/readiness
+    port: 8080
+  initialDelaySeconds: 15
+  periodSeconds: 5
+  failureThreshold: 3
 autoscaling:
   enabled: false
   minReplicas: 1
